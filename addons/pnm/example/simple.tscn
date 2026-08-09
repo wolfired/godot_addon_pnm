@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bf5ajvawduumi"]
+
+[ext_resource type="Script" uid="uid://bquo852j17rw" path="res://addons/pnm/example/simple.gd" id="1_14g23"]
+
+[node name="sample" type="Sprite2D" unique_id=173581587]
+script = ExtResource("1_14g23")

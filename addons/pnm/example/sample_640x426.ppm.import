@@ -1,0 +1,14 @@
+[remap]
+
+importer="pnm.importer"
+type="PNM"
+uid="uid://pr2yy8l4bdc6"
+path="res://.godot/imported/sample_640x426.ppm-d78188c8325ac0ba7e92716e5643c4e4.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/sample_640x426.ppm"
+dest_files=["res://.godot/imported/sample_640x426.ppm-d78188c8325ac0ba7e92716e5643c4e4.pnm"]
+
+[params]
+
