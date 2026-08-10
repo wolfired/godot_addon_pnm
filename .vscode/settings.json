@@ -1,0 +1,9 @@
+{
+  "files.exclude": {
+    "**/.zed": true,
+    "**/.git": true,
+    "**/project.godot": true,
+    "**/*.import": true,
+    "**/*.uid": true
+  }
+}
