@@ -11,17 +11,15 @@ func _ready() -> void:
 	var pnm := load("res://addons/pnm/example/sample_640x426.ppm") as PNM
 	
 	var image := Image.create_from_data(
-		pnm._width, \
-		pnm._height, \
-		false, \
-		pnm.image_format, \
+		pnm._width,
+		pnm._height,
+		false,
+		pnm.image_format,
 		pnm._pixels
 	)
 	
 	self.texture = ImageTexture.create_from_image(image)
-	
-	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
