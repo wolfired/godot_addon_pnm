@@ -10,7 +10,7 @@ func _can_generate_small_preview() -> bool:
 func _generate(resource: Resource, size: Vector2i, metadata: Dictionary) -> Texture2D:
 	var pnm := resource as PNM
 	
-	if null == pnm:
+	if !is_instance_valid(pnm):
 		return null
 	
 	var i := Image.create_from_data(pnm._width, pnm._height, false, pnm.image_format, pnm._pixels)

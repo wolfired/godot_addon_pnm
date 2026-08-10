@@ -2,7 +2,7 @@
 extends EditorImportPlugin
 
 func _get_importer_name() -> String:
-	return "pnm.importer"
+	return "importer.pnm"
 
 func _get_visible_name() -> String:
 	return "PNM"
@@ -31,4 +31,3 @@ func _import(source_file: String, save_path: String, options: Dictionary, platfo
 	var pnm := PNM.create_from_data(buf)
 	
 	return ResourceSaver.save(pnm,  "%s.%s" % [save_path, _get_save_extension()])
-	

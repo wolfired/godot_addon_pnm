@@ -1,6 +1,5 @@
 extends Sprite2D
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ResourceLoader.add_resource_format_loader(
@@ -22,7 +21,6 @@ func _ready() -> void:
 	self.texture = ImageTexture.create_from_image(image)
 	
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
