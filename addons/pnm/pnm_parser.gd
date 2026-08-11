@@ -67,20 +67,17 @@ func read_maxval() -> int:
 	self.forward(is_ascii_digit)
 	return self.read_ascii_decimal()
 
-func read_pixels4pbm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
-	var o := 0
-	for row in height:
-		for col in width:
-			self.forward(is_ascii_digit)
-			
-			var color := 0x0 if 0x1 == self.read_ascii_decimal() else 0xff
-			
-			pixels[o + 0] = color
-			pixels[o + 1] = color
-			pixels[o + 2] = color
-			
-			o += 3
-	
+func read_pixels4pbm_ascii(pixels: PackedByteArray) -> void:
+	var sz := pixels.size()
+	for o in range(0, sz, 3):
+		self.forward(is_ascii_digit)
+		
+		var color := 0x0 if 0x1 == self.read_ascii_decimal() else 0xff
+		
+		pixels[o + 0] = color
+		pixels[o + 1] = color
+		pixels[o + 2] = color
+
 func read_pixels4pbm(width:int, height:int, pixels: PackedByteArray) -> void:
 	self._pos += 1
 	var data := self._data.slice(self._pos)
@@ -100,57 +97,45 @@ func read_pixels4pbm(width:int, height:int, pixels: PackedByteArray) -> void:
 			
 			o += 3
 
-func read_pixels4pgm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
-	var o := 0
-	for row in height:
-		for col in width:
-			self.forward(is_ascii_digit)
-			
-			var color := self.read_ascii_decimal()
-			
-			pixels[o + 0] = color
-			pixels[o + 1] = color
-			pixels[o + 2] = color
-			
-			o += 3
+func read_pixels4pgm_ascii(pixels: PackedByteArray) -> void:
+	var sz := pixels.size()
+	for o in range(0, sz, 3):
+		self.forward(is_ascii_digit)
+		
+		var color := self.read_ascii_decimal()
+		
+		pixels[o + 0] = color
+		pixels[o + 1] = color
+		pixels[o + 2] = color
 
-func read_pixels4pgm(width:int, height:int, pixels: PackedByteArray) -> void:
+func read_pixels4pgm(pixels: PackedByteArray) -> void:
 	self._pos += 1
 	
-	var o := 0
-	for row in height:
-		for col in width:
-			var color := self.read_i8_be()
-			
-			pixels[o + 0] = color
-			pixels[o + 1] = color
-			pixels[o + 2] = color
-			
-			o += 3
+	var sz := pixels.size()
+	for o in range(0, sz, 3):
+		var color := self.read_i8_be()
+		
+		pixels[o + 0] = color
+		pixels[o + 1] = color
+		pixels[o + 2] = color
 
-func read_pixels4ppm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
-	var o := 0
-	for row in height:
-		for col in width:
-			self.forward(is_ascii_digit)
-			
-			pixels[o + 0] = self.read_ascii_decimal()
-			pixels[o + 1] = self.read_ascii_decimal()
-			pixels[o + 2] = self.read_ascii_decimal()
-			
-			o += 3
+func read_pixels4ppm_ascii(pixels: PackedByteArray) -> void:
+	var sz := pixels.size()
+	for o in range(0, sz, 3):
+		self.forward(is_ascii_digit)
+		
+		pixels[o + 0] = self.read_ascii_decimal()
+		pixels[o + 1] = self.read_ascii_decimal()
+		pixels[o + 2] = self.read_ascii_decimal()
 
-func read_pixels4ppm(width:int, height:int, pixels: PackedByteArray) -> void:
+func read_pixels4ppm(pixels: PackedByteArray) -> void:
 	self._pos += 1
 	
-	var o := 0
-	for row in height:
-		for col in width:
-			pixels[o + 0] = self.read_i8_be()
-			pixels[o + 1] = self.read_i8_be()
-			pixels[o + 2] = self.read_i8_be()
-			
-			o += 3
+	var sz := pixels.size()
+	for o in range(0, sz, 3):
+		pixels[o + 0] = self.read_i8_be()
+		pixels[o + 1] = self.read_i8_be()
+		pixels[o + 2] = self.read_i8_be()
 
 func parse(data: PackedByteArray, pnm: PNM = null) -> PNM:
 	self._pos = 0
@@ -168,21 +153,21 @@ func parse(data: PackedByteArray, pnm: PNM = null) -> PNM:
 	pnm._pixels.resize(pnm.pixel_count * pnm.byte_count_per_pixel)
 	match pnm._magic:
 		PNM.Magic.PBM_PLAIN:
-			self.read_pixels4pbm_ascii(pnm._width, pnm._height, pnm._pixels)
+			self.read_pixels4pbm_ascii(pnm._pixels)
 		PNM.Magic.PBM:
 			self.read_pixels4pbm(pnm._width, pnm._height, pnm._pixels)
 		PNM.Magic.PGM_PLAIN:
 			pnm._maxval = self.read_maxval()
-			self.read_pixels4pgm_ascii(pnm._width, pnm._height, pnm._pixels)
+			self.read_pixels4pgm_ascii(pnm._pixels)
 		PNM.Magic.PGM:
 			pnm._maxval = self.read_maxval()
-			self.read_pixels4pgm(pnm._width, pnm._height, pnm._pixels)
+			self.read_pixels4pgm(pnm._pixels)
 		PNM.Magic.PPM_PLAIN:
 			pnm._maxval = self.read_maxval()
-			self.read_pixels4ppm_ascii(pnm._width, pnm._height, pnm._pixels)
+			self.read_pixels4ppm_ascii(pnm._pixels)
 		PNM.Magic.PPM:
 			pnm._maxval = self.read_maxval()
-			self.read_pixels4ppm(pnm._width, pnm._height, pnm._pixels)
+			self.read_pixels4ppm(pnm._pixels)
 		_:
 			assert(false, "not impl")
 	

@@ -1,0 +1,14 @@
+[remap]
+
+importer="importer.pnm"
+type="PNM"
+uid="uid://d07vjt6aipxyp"
+path="res://.godot/imported/red.ppm-01d9af6fdbd7953b46f1bdaa0fdda211.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/red.ppm"
+dest_files=["res://.godot/imported/red.ppm-01d9af6fdbd7953b46f1bdaa0fdda211.pnm"]
+
+[params]
+
