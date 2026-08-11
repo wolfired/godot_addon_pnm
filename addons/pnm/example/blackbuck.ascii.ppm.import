@@ -1,0 +1,14 @@
+[remap]
+
+importer="importer.pnm"
+type="PNM"
+uid="uid://cvtelu22tll43"
+path="res://.godot/imported/blackbuck.ascii.ppm-e96d252b66b280855ce90e406b747241.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/blackbuck.ascii.ppm"
+dest_files=["res://.godot/imported/blackbuck.ascii.ppm-e96d252b66b280855ce90e406b747241.pnm"]
+
+[params]
+

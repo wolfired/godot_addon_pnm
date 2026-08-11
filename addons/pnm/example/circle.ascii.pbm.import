@@ -1,0 +1,14 @@
+[remap]
+
+importer="importer.pnm"
+type="PNM"
+uid="uid://c1npr101sgq5j"
+path="res://.godot/imported/circle.ascii.pbm-3e140117f3ce3b95e2f5bcf9ff2fc298.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/circle.ascii.pbm"
+dest_files=["res://.godot/imported/circle.ascii.pbm-3e140117f3ce3b95e2f5bcf9ff2fc298.pnm"]
+
+[params]
+

@@ -1,0 +1,14 @@
+[remap]
+
+importer="importer.pnm"
+type="PNM"
+uid="uid://bqmgs83pc0rrg"
+path="res://.godot/imported/pepper.ascii.pgm-cedf05892dd67f0acf20b9465de3d510.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/pepper.ascii.pgm"
+dest_files=["res://.godot/imported/pepper.ascii.pgm-cedf05892dd67f0acf20b9465de3d510.pnm"]
+
+[params]
+

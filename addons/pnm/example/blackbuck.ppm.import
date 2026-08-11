@@ -1,0 +1,14 @@
+[remap]
+
+importer="importer.pnm"
+type="PNM"
+uid="uid://diweaee30f5xa"
+path="res://.godot/imported/blackbuck.ppm-0fe629a1bfbe3dff45bde3cce907e4e2.pnm"
+
+[deps]
+
+source_file="res://addons/pnm/example/blackbuck.ppm"
+dest_files=["res://.godot/imported/blackbuck.ppm-0fe629a1bfbe3dff45bde3cce907e4e2.pnm"]
+
+[params]
+
