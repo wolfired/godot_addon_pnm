@@ -5,7 +5,9 @@ func _get_recognized_extensions() -> PackedStringArray:
 	return PackedStringArray(["pnm"])
 
 func _get_resource_type(path: String) -> String:
-	return "PNM"
+	if "pnm" == path.get_extension().to_lower():
+		return "PNM"
+	return ""
 
 func _handles_type(type: StringName) -> bool:
 	return "PNM" == type
