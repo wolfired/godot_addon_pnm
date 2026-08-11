@@ -67,9 +67,90 @@ func read_maxval() -> int:
 	self.forward(is_ascii_digit)
 	return self.read_ascii_decimal()
 
-func read_pixels(c: Callable, pixels: PackedByteArray) -> void:
-	var sz := min(self._data.size() - self._pos, pixels.size())
-	for i in sz: pixels[i] = c.call()
+func read_pixels4pbm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
+	var o := 0
+	for row in height:
+		for col in width:
+			self.forward(is_ascii_digit)
+			
+			var color := 0x0 if 0x1 == self.read_ascii_decimal() else 0xff
+			
+			pixels[o + 0] = color
+			pixels[o + 1] = color
+			pixels[o + 2] = color
+			
+			o += 3
+	
+func read_pixels4pbm(width:int, height:int, pixels: PackedByteArray) -> void:
+	self._pos += 1
+	var data := self._data.slice(self._pos)
+	self._pos += ((width + 7) >> 3) * height
+	
+	var o := 0
+	for row in height:
+		var bas := ((width + 7) >> 3) * row
+		for col in width:
+			var ii := bas + (col >> 3) # bas + col / 8
+			var oo := 7 - (col & 7) # 7 - col % 8
+			var color := 0x0 if 0x1 == (data[ii] >> oo) & 0x1 else 0xff
+			
+			pixels[o + 0] = color
+			pixels[o + 1] = color
+			pixels[o + 2] = color
+			
+			o += 3
+
+func read_pixels4pgm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
+	var o := 0
+	for row in height:
+		for col in width:
+			self.forward(is_ascii_digit)
+			
+			var color := self.read_ascii_decimal()
+			
+			pixels[o + 0] = color
+			pixels[o + 1] = color
+			pixels[o + 2] = color
+			
+			o += 3
+
+func read_pixels4pgm(width:int, height:int, pixels: PackedByteArray) -> void:
+	self._pos += 1
+	
+	var o := 0
+	for row in height:
+		for col in width:
+			var color := self.read_i8_be()
+			
+			pixels[o + 0] = color
+			pixels[o + 1] = color
+			pixels[o + 2] = color
+			
+			o += 3
+
+func read_pixels4ppm_ascii(width:int, height:int, pixels: PackedByteArray) -> void:
+	var o := 0
+	for row in height:
+		for col in width:
+			self.forward(is_ascii_digit)
+			
+			pixels[o + 0] = self.read_ascii_decimal()
+			pixels[o + 1] = self.read_ascii_decimal()
+			pixels[o + 2] = self.read_ascii_decimal()
+			
+			o += 3
+
+func read_pixels4ppm(width:int, height:int, pixels: PackedByteArray) -> void:
+	self._pos += 1
+	
+	var o := 0
+	for row in height:
+		for col in width:
+			pixels[o + 0] = self.read_i8_be()
+			pixels[o + 1] = self.read_i8_be()
+			pixels[o + 2] = self.read_i8_be()
+			
+			o += 3
 
 func parse(data: PackedByteArray, pnm: PNM = null) -> PNM:
 	self._pos = 0
@@ -81,22 +162,28 @@ func parse(data: PackedByteArray, pnm: PNM = null) -> PNM:
 	pnm._magic = self.read_magic()
 	pnm._width = self.read_width()
 	pnm._height = self.read_height()
-	pnm._maxval = self.read_maxval()
 	
 	if !is_instance_valid(pnm._pixels):
 		pnm._pixels = PackedByteArray()
 	pnm._pixels.resize(pnm.pixel_count * pnm.byte_count_per_pixel)
-	var c: Callable
 	match pnm._magic:
+		PNM.Magic.PBM_PLAIN:
+			self.read_pixels4pbm_ascii(pnm._width, pnm._height, pnm._pixels)
+		PNM.Magic.PBM:
+			self.read_pixels4pbm(pnm._width, pnm._height, pnm._pixels)
+		PNM.Magic.PGM_PLAIN:
+			pnm._maxval = self.read_maxval()
+			self.read_pixels4pgm_ascii(pnm._width, pnm._height, pnm._pixels)
+		PNM.Magic.PGM:
+			pnm._maxval = self.read_maxval()
+			self.read_pixels4pgm(pnm._width, pnm._height, pnm._pixels)
 		PNM.Magic.PPM_PLAIN:
-			self.forward(is_ascii_digit)
-			c = read_ascii_decimal
+			pnm._maxval = self.read_maxval()
+			self.read_pixels4ppm_ascii(pnm._width, pnm._height, pnm._pixels)
 		PNM.Magic.PPM:
-			self.forward(is_ascii_ctrl_line_feed)
-			self._pos += 1
-			c = read_i8_be
+			pnm._maxval = self.read_maxval()
+			self.read_pixels4ppm(pnm._width, pnm._height, pnm._pixels)
 		_:
-			assert(is_instance_valid(c), "not impl")
-	self.read_pixels(c, pnm._pixels)
+			assert(false, "not impl")
 	
 	return pnm

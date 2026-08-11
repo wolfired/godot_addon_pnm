@@ -18,8 +18,6 @@ func _disable_plugin() -> void:
 func _enter_tree() -> void:
 	# Initialization of the plugin goes here.
 	
-	add_custom_type("PNM", "Resource", preload("pnm.gd"), null)
-	
 	plugin_saver = preload("plugin_saver.gd").new()
 	ResourceSaver.add_resource_format_saver(plugin_saver)
 	
@@ -52,5 +50,3 @@ func _exit_tree() -> void:
 	
 	ResourceSaver.remove_resource_format_saver(plugin_saver)
 	plugin_saver = null
-	
-	remove_custom_type("PNM")
